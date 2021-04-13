@@ -5,7 +5,6 @@ const path = require('path')
 
 const contactsPath = path.join(__dirname, './db/contacts.json')
 
-// TODO: задокументировать каждую функцию
 async function listContacts() {
   try {
     const contacts = JSON.parse(await fs.readFile(contactsPath))

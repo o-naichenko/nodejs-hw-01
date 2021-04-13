@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/o-naichenko/nodejs-hw-01#readme",
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "yargs": "^16.2.0"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3"
   }
 }
