@@ -8,7 +8,7 @@ const contactsPath = path.join(__dirname, './db/contacts.json')
 async function listContacts() {
   try {
     const contacts = JSON.parse(await fs.readFile(contactsPath))
-    console.table(contacts)
+    return contacts
   } catch (error) {
     throw error
   }
@@ -16,8 +16,13 @@ async function listContacts() {
 
 async function getContactById(contactId) {
   try {
-    const contacts = JSON.parse(await fs.readFile(contactsPath))
-    console.table(contacts.filter(({ id }) => id === contactId))
+    const contacts = await listContacts()
+    const contact = contacts.find(({ id }) => id === contactId)
+    if (contact) {
+      return contact
+    } else {
+      console.error(`No contact with ID: ${contactId} found`)
+    }
   } catch (error) {
     throw error
   }
@@ -25,10 +30,13 @@ async function getContactById(contactId) {
 
 async function removeContact(contactId) {
   try {
-    const contacts = JSON.parse(await fs.readFile(contactsPath))
-    const remainingContacts = contacts.filter(({ id }) => id !== contactId)
-    await fs.writeFile(contactsPath, JSON.stringify(remainingContacts))
-    listContacts()
+    if (await getContactById(contactId)) {
+      const contacts = await listContacts()
+      const remainingContacts = contacts.filter(({ id }) => id !== contactId)
+      await fs.writeFile(contactsPath, JSON.stringify(remainingContacts))
+      console.log(remainingContacts)
+    }
+    return
   } catch (error) {
     throw error
   }
@@ -36,7 +44,7 @@ async function removeContact(contactId) {
 
 async function addContact(name, email, phone) {
   try {
-    const contacts = JSON.parse(await fs.readFile(contactsPath))
+    const contacts = await listContacts()
     const newContactId = contacts[contacts.length - 1]?.id + 1 || 0
     const newContact = {
       name,
@@ -46,7 +54,7 @@ async function addContact(name, email, phone) {
     }
     const newContactsArray = [...contacts, newContact]
     fs.writeFile(contactsPath, JSON.stringify(newContactsArray))
-    listContacts()
+    console.log(newContactsArray)
   } catch (error) {
     throw error
   }
