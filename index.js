@@ -4,12 +4,12 @@ const argv = require('yargs').argv
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case 'list':
-      contacts = await contactsAPI.listContacts()
+      const contacts = await contactsAPI.getListOfContacts()
       console.log(contacts)
       break
 
     case 'get':
-      contact = await contactsAPI.getContactById(id)
+      const contact = await contactsAPI.getContactById(id)
       console.log(contact)
       break
 

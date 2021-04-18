@@ -5,7 +5,7 @@ const path = require('path')
 
 const contactsPath = path.join(__dirname, './db/contacts.json')
 
-async function listContacts() {
+async function getListOfContacts() {
   try {
     const contacts = JSON.parse(await fs.readFile(contactsPath))
     return contacts
@@ -62,6 +62,6 @@ async function addContact(name, email, phone) {
 module.exports = {
   addContact,
   getContactById,
-  listContacts,
+  getListOfContacts,
   removeContact,
 }
